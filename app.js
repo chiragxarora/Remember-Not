@@ -7,9 +7,11 @@ app.use(express.static(__dirname + '/public'));
 
 const userRouter = require('./routes/userRoutes');
 const websiteRouter = require('./routes/websiteRoutes');
+const credentialRouter = require('./routes/credentialRoutes');
  
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/websites', websiteRouter);
+app.use('/api/v1/credentials', credentialRouter);
 
 app.use(globalErrorHandler);
 
