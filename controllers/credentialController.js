@@ -2,6 +2,16 @@ const Credential = require("../models/credentialModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach(el => {
+    if(allowedFields.includes(el)){
+      newObj[el] = obj[el];
+    }
+  })
+  return newObj;
+}
+
 exports.addCredential = catchAsync(async (req, res, next) => {
   const credential = await Credential.create({
     loginId: req.body.loginId,
@@ -35,9 +45,10 @@ exports.getCredentialsByID = catchAsync(async (req, res, next) => {
 });
 
 exports.updateCredentials = catchAsync(async (req, res, next) => {
+  const filteredBody = filterObj(req.body, 'loginId', 'password');
   const updatedCredential = await Credential.findByIdAndUpdate(
     req.params.id,
-    req.body,
+    filteredBody,
     {
       new: true,
       runValidators: true,

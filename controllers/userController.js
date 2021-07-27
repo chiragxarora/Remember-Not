@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Credential = require("../models/credentialModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -38,6 +39,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       user
     }
   });
+})
+
+exports.myCredentials = catchAsync(async(req, res, next) => {
+  const myCredentials = await Credential.find({userId: req.user._id}).select('_id websiteId');
+  res.status(200).json({
+    status: "success",
+    data: {
+      myCredentials
+    }
+  })
 })
 
 exports.addUser = (req, res) => {
