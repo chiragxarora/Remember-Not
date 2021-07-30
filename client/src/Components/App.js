@@ -1,36 +1,27 @@
 import React from "react";
-import { Root } from '../api';
+import { BrowserRouter, Route } from "react-router-dom";
+import Home from "./Home";
+import AddPassword from "./AddPassword";
+import Websites from "./Websites";
+import NavBar from "./NavBar";
+import Dashboard from "./Dashboard";
+import Login from "./Login";
+import Signup from "./Signup";
 
-class App extends React.Component {
-  state = {
-    data: null,
-  };
-
-  componentDidMount() {
-    this.callBackendAPI();
-  }
-  callBackendAPI = async () => {
-    try {
-      console.log("calling backend");
-      const response = await Root.get('/');
-      console.log(response.data)
-      this.setState({data: response.data.express})
-    } catch (err) {
-      console.log(err.response.data);
-    }
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="ui container">
+      <BrowserRouter>
+        <NavBar />
+        <Route path="/" exact component={Home} />
+        <Route path="/websites" exact component={Websites} />
+        <Route path="/addpassword" exact component={AddPassword} />
+        <Route path="/me" exact component={Dashboard} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/signup" exact component={Signup} />
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
