@@ -9,7 +9,6 @@ app.use((req,res,next) => {
     console.log(1,res.cookies);
     next();
 })
-app.use(express.static(__dirname + "/public"));
 
 const userRouter = require("./routes/userRoutes");
 const websiteRouter = require("./routes/websiteRoutes");
@@ -38,6 +37,11 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
+
+app.get('/', (req, res) => {
+  console.log('call from client')
+  res.send({express: 'Backend Connected!!'});
+})
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/websites", websiteRouter);
