@@ -49,7 +49,7 @@ class Login extends React.Component {
             readOnly
             placeholder="Search..."
             value={
-              this.props.auth.status === "success"
+              this.props.auth.active === true
                 ? "Logged In"
                 : "Not Logged In"
             }

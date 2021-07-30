@@ -1,10 +1,10 @@
-import axios from "axios";
+import { User } from "../../api";
 
 export const tryLogin = (email, password) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/v1/users/login",
+      const response = await User.post(
+        "/login",
         {
           email: email,
           password: password,
@@ -17,12 +17,33 @@ export const tryLogin = (email, password) => {
         type: "LOGIN_SUCCESS",
         payload: response.data,
       });
-    } catch(err) {
+    } catch (err) {
       dispatch({
         type: "LOGIN_FAILED",
-        payload: err.response.data
+        payload: err.response.data,
       });
     }
-    
+  };
+};
+
+export const tryLogout = () => {
+  return async (dispatch) => {
+    try {
+      const response = await User.get(
+        "/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch({
+        type: "LOGOUT_SUCCESS",
+        payload: response.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: "LOGOUT_FAILED",
+        payload: err.response.data,
+      });
+    }
   };
 };

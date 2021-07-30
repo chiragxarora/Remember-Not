@@ -44,20 +44,30 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log('Received Login Request!!',req.body);
+  console.log("Received Login Request!!", req.body);
   // 1) Check if email && password exist in req.body
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
   // 2) Check if user exists in database and password is correct
   const user = await User.findOne({ email }).select("+password");
-  console.log('User Fetched from DB', user);
+  console.log("User Fetched from DB", user);
   const correct = await user.correctPassword(password, user.password);
   if (!user || !correct) {
     return next(new AppError("Incorrect email or passowrd!", 401));
   }
   // 3) If everything is fine, send jwt token to client
   createSendToken(user, 200, res);
+});
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    status: "success",
+  });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -68,8 +78,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-  }
-  else if(req.cookies.jwt) {
+  } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
 
