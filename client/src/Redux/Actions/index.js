@@ -115,3 +115,45 @@ export const getCredentialData = (id) => {
     }
   };
 }
+
+export const updateCredentialData = (id, updateBody) => {
+  return async (dispatch) => {
+    try {
+      const response = await Credential.patch(`${id}`,updateBody, {
+        withCredentials: true,
+      });
+      console.log(response.data)
+      dispatch({
+        type: "UPDATE_CREDENTIAL_DATA_SUCCESS",
+        payload: response.data.data.updatedCredential,
+      });
+    } catch (err) {
+      console.log(err)
+      dispatch({
+        type: "UPDATE_CREDENTIAL_DATA_FAILED",
+        payload: err.response.data,
+      });
+    }
+  };
+}
+
+export const deleteCredentialData = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await Credential.delete(`${id}`, {
+        withCredentials: true,
+      });
+      console.log(response.data)
+      dispatch({
+        type: "DELETE_CREDENTIAL_DATA_SUCCESS",
+        payload: {id},
+      });
+    } catch (err) {
+      console.log(err)
+      dispatch({
+        type: "DELETE_CREDENTIAL_DATA_FAILED",
+        payload: err.response.data,
+      });
+    }
+  };
+}
