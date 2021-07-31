@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown, Form, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { getWebsites, addPassword } from "../Redux/Actions";
+import { getWebsites, addCredential } from "../Redux/Actions";
 
 class AddPassword extends React.Component {
   state = { options: [], siteId: "", loginId: "", password: "" };
@@ -72,4 +72,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getWebsites, addPassword })(AddPassword);
+export default connect(mapStateToProps, { getWebsites, addCredential })(AddPassword);

@@ -179,7 +179,7 @@ export const getWebsites = () => {
   };
 };
 
-export const addPassword = (loginId, password, website) => {
+export const addCredential = (loginId, password, website) => {
   return async (dispatch) => {
     try {
       const response = await Credential.post(
@@ -202,6 +202,48 @@ export const addPassword = (loginId, password, website) => {
       console.log(err);
       dispatch({
         type: "ADD_PASSWORD_FAILED",
+        payload: err.response.data,
+      });
+    }
+  };
+};
+
+export const updateMyPassword = (updateBody) => {
+  return async (dispatch) => {
+    try {
+      const response = await User.patch('updatepassword', updateBody, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      dispatch({
+        type: "UPDATE_PASSWORD_SUCCESS",
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: "UPDATE_PASSWORD_FAILED",
+        payload: err.response.data,
+      });
+    }
+  };
+};
+
+export const updateMe = (updateBody) => {
+  return async (dispatch) => {
+    try {
+      const response = await User.patch('updateme', updateBody, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      dispatch({
+        type: "UPDATE_ME_SUCCESS",
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: "UPDATE_ME_FAILED",
         payload: err.response.data,
       });
     }

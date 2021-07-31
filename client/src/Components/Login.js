@@ -37,23 +37,11 @@ class Login extends React.Component {
           </div>
           <button className="ui submit button">Login</button>
         </form>
-        <div>
+        <div className="ui segment">
           New Here
           <Link to="/signup" className="ui button">
             Signup!
           </Link>
-        </div>
-        <div className="ui disabled input">
-          <input
-            type="text"
-            readOnly
-            placeholder="Search..."
-            value={
-              this.props.auth.active === true
-                ? "Logged In"
-                : "Not Logged In"
-            }
-          />
         </div>
       </div>
     );

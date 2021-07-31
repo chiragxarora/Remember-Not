@@ -27,6 +27,18 @@ const authReducer = (state = { active: false }, action) => {
     case "LOGOUT_FAILED":
       return state;
 
+    case "UPDATE_PASSWORD_SUCCESS":
+      return state; // user's account password not needed on app's state
+    case "UPDATE_PASSWORD_FAILED":
+      return state;
+    case "UPDATE_ME_SUCCESS":
+      let newState4 = { ...state };
+      newState4.active = true;
+      newState4.data = action.payload.data;
+      return newState4;
+    case "UPDATE_ME_FAILED":
+      return state;
+
     default:
       return state;
   }
