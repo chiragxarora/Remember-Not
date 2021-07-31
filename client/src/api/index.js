@@ -11,3 +11,7 @@ export const User = axios.create({
 export const Credential = axios.create({
     baseURL: 'http://localhost:3001/api/v1/credentials'
 });
+
+export const Website = axios.create({
+    baseURL: 'http://localhost:3001/api/v1/websites'
+});
