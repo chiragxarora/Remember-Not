@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import { authReducer } from './authReducer';
+import authReducer from './authReducer';
+import credentialReducer from './credentialsReducer';
+import credentialDataReducer from './credentialDataReducer';
 
 export default combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    credentials: credentialReducer,
+    credData: credentialDataReducer
 })

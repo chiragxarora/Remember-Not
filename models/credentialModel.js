@@ -9,7 +9,7 @@ const credentialSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Credentials must have a password']
     },
-    websiteId: {
+    website: {
         type: mongoose.Schema.ObjectId,
         required: [true, 'login info must belong to a website!'],
         ref: 'Website'

@@ -17,6 +17,7 @@
     "mongoose": "^5.13.3",
     "nodemailer": "^6.6.3",
     "nodemon": "^2.0.12",
+    "semantic-ui-react": "^2.0.3",
     "validator": "^13.6.0"
   }
 }

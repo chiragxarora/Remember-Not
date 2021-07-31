@@ -16,7 +16,7 @@ exports.addCredential = catchAsync(async (req, res, next) => {
   const credential = await Credential.create({
     loginId: req.body.loginId,
     password: req.body.password,
-    websiteId: req.body.websiteId,
+    website: req.body.website,
     userId: req.user._id,
   });
   res.status(201).json({

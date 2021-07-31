@@ -1,4 +1,4 @@
-export const authReducer = (state = { active: false }, action) => {
+const authReducer = (state = { active: false }, action) => {
   switch (action.type) {
     case "SIGNUP_SUCCESS":
       let newState1 = { ...state };
@@ -31,3 +31,5 @@ export const authReducer = (state = { active: false }, action) => {
       return state;
   }
 };
+
+export default authReducer;
