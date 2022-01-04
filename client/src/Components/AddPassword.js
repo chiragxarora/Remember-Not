@@ -6,18 +6,16 @@ import { getWebsites, addCredential } from "../Redux/Actions";
 class AddPassword extends React.Component {
   state = { options: [], siteId: "", loginId: "", password: "" };
   componentDidMount() {
-    console.log(this.state);
     this.props.getWebsites();
     this.setState({ options: this.props.websites });
   }
 
   onWebsiteChange = (e, { value }) => {
-    console.log(value);
     this.setState({ siteId: value });
   };
   addPasswordSubmit = (e) => {
     e.preventDefault();
-    this.props.addPassword(this.state.loginId, this.state.password, this.state.siteId);
+    this.props.addCredential(this.state.loginId, this.state.password, this.state.siteId);
     this.setState({loginId: '', password: ''});
   };
   render() {
@@ -59,7 +57,6 @@ class AddPassword extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   let websites = [];
   if (state.websites[0] != -1) {
     state.websites.data.websites.map((site) => {

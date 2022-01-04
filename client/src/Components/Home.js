@@ -22,7 +22,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.credentials);
+  console.log(state);
   return {
     credentials: state.credentials,
   };

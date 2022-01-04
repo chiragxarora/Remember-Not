@@ -15,7 +15,6 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log("rendered", this.props.auth);
     return (
       <div>
         <form onSubmit={this.onSubmitLoginForm} className="ui form">
@@ -49,7 +48,6 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     auth: state.auth,
   };

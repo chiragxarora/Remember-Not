@@ -7,6 +7,7 @@ class CredentialCard extends React.Component {
   state = {
     loginId: undefined,
     password: undefined,
+    openView: false,
     openEdit: false,
     openDelete: false,
   };
@@ -17,14 +18,12 @@ class CredentialCard extends React.Component {
   };
 
   onSubmitEdit = () => {
-    console.log('editing in database',this.state);
     const obj = {loginId: this.state.loginId, password: this.state.password}
     this.props.updateCredentialData(this.props.credential._id,obj);
     this.setState({ openEdit: !this.state.openEdit })
   }
 
   onSubmitDelete = () => {
-    console.log('deleting from database',this.state);
     this.props.deleteCredentialData(this.props.credential._id);
     this.setState({ openDelete: !this.state.openDelete })
   }
@@ -34,9 +33,9 @@ class CredentialCard extends React.Component {
     return (
       <div className="card">
         <div className="content">
-          <div className="header">{cred.website.name}</div>
-          <a className="meta" href={cred.website.link} target="_blank">
-            {cred.website.link}
+          <div className="header">{cred.websiteId.name}</div>
+          <a className="meta" href={cred.websiteId.link} target="_blank">
+            {cred.websiteId.link}
           </a>
           <div className="ui segment">
             <div>
@@ -145,7 +144,6 @@ class CredentialCard extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
   return {
     id: state.credData.id,
     loginId: state.credData.loginId,

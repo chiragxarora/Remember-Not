@@ -75,6 +75,7 @@ export const tryLogout = () => {
 };
 
 export const getCredentials = () => {
+  console.log("in here");
   return async (dispatch) => {
     try {
       const response = await User.get("/mycredentials", {
@@ -179,7 +180,8 @@ export const getWebsites = () => {
   };
 };
 
-export const addCredential = (loginId, password, website) => {
+export const addCredential = (loginId, password, websiteId) => {
+  console.log(websiteId);
   return async (dispatch) => {
     try {
       const response = await Credential.post(
@@ -187,7 +189,7 @@ export const addCredential = (loginId, password, website) => {
         {
           loginId,
           password,
-          website,
+          websiteId,
         },
         {
           withCredentials: true,
@@ -195,13 +197,13 @@ export const addCredential = (loginId, password, website) => {
       );
       console.log(response.data);
       dispatch({
-        type: "ADD_PASSWORD_SUCCESS",
+        type: "ADD_CREDENTIAL_SUCCESS",
         payload: response.data,
       });
     } catch (err) {
       console.log(err);
       dispatch({
-        type: "ADD_PASSWORD_FAILED",
+        type: "ADD_CREDENTIAL_FAILED",
         payload: err.response.data,
       });
     }

@@ -9,7 +9,6 @@ class Websites extends React.Component {
   
   render() {
     if(this.props.auth.active===false){
-      console.log('please login');
       return <div>Login or wait</div>
     }
     const websites = this.props.websites.map((site) => {

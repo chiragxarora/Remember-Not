@@ -42,8 +42,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 })
 
 exports.myCredentials = catchAsync(async(req, res, next) => {
-  const myCredentials = await Credential.find({userId: req.user._id}).select('_id website').populate({
-    path: 'website',
+  const myCredentials = await Credential.find({userId: req.user._id}).select('_id websiteId').populate({
+    path: 'websiteId',
     select: 'name link'
   });
   res.status(200).json({

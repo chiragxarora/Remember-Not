@@ -1,4 +1,5 @@
 const Credential = require("../models/credentialModel");
+const Website = require("../models/websiteModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
@@ -13,16 +14,20 @@ const filterObj = (obj, ...allowedFields) => {
 }
 
 exports.addCredential = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const credential = await Credential.create({
     loginId: req.body.loginId,
     password: req.body.password,
-    website: req.body.website,
+    websiteId: req.body.websiteId,
     userId: req.user._id,
   });
+  const website = await Website.findById(req.body.websiteId);
+  console.log(credential);
   res.status(201).json({
     status: "success",
     data: {
       credential,
+      website
     },
   });
 });
