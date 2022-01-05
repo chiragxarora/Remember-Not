@@ -24,6 +24,20 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.validateMe = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if(user.passCode===req.params.passCode){
+    res.status(200).json({
+      status: "success"
+    });
+  }
+  else {
+    res.status(401).json({
+      status: "failure"
+    });
+  }
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   if(req.body.password || req.body.passwordConfirm) {
     return next(new AppError('This route is not for password update! Please use /updatepassword',400));

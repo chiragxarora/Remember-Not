@@ -1,21 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Modal, Button, Input } from "semantic-ui-react";
-import { getCredentialData, updateCredentialData, deleteCredentialData } from "../Redux/Actions";
+import { getCredentialData, updateCredentialData, deleteCredentialData, validateMe } from "../Redux/Actions";
 
 class CredentialCard extends React.Component {
   state = {
     loginId: undefined,
     password: undefined,
+    passcode: '',
     openView: false,
     openEdit: false,
     openDelete: false,
   };
 
-  getCredData = () => {
+  onSubmitView = () => {
+    this.props.validateMe(this.state.passcode);
     this.props.getCredentialData(this.props.credential._id);
-    this.setState({loginId: this.props.loginId, password: this.props.password})
-  };
+    this.setState({ openView: !this.state.openView })
+    this.setState({loginId: this.props.loginId, password: this.props.password, passcode: ''})
+  }
 
   onSubmitEdit = () => {
     const obj = {loginId: this.state.loginId, password: this.state.password}
@@ -40,19 +43,52 @@ class CredentialCard extends React.Component {
           <div className="ui segment">
             <div>
               login id :{" "}
-              {cred._id === this.props.id ? this.props.loginId : "xxxxxxxxxx"}
+              {cred._id === this.props.id && this.props.valid ? this.props.loginId : "xxxxxxxxxx"}
             </div>
             <div>
               password :{" "}
-              {cred._id === this.props.id ? this.props.password : "xxxxxxxxxx"}
+              {cred._id === this.props.id && this.props.valid ? this.props.password : "xxxxxxxxxx"}
             </div>
           </div>
         </div>
         <div className="extra content">
           <div className="ui three buttons">
-            <div className="ui basic green button" onClick={this.getCredData}>
+            <div className="ui basic green button"
+            onClick={() => this.setState({ openView: !this.state.openView  })}
+            >
               View
             </div>
+            <Modal
+              dimmer="blurring"
+              open={this.state.openView}
+              onClose={() => this.setState({ openView: !this.state.openView })}
+            >
+              <Modal.Header>Enter passcode to confirm</Modal.Header>
+              <Modal.Content>
+                <Input
+                  value={
+                    this.state.passcode
+                  }
+                  onChange={(e) => this.setState({passcode: e.target.value})}
+                />
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  negative
+                  onClick={() =>
+                    this.setState({ openView: !this.state.openView })
+                  }
+                >
+                  Disagree
+                </Button>
+                <Button
+                  positive
+                  onClick={this.onSubmitView}
+                >
+                  Agree
+                </Button>
+              </Modal.Actions>
+            </Modal>
             <button
               className="ui basic yellow button"
               disabled={this.props.id!==cred._id ? true : false}
@@ -144,11 +180,13 @@ class CredentialCard extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     id: state.credData.id,
     loginId: state.credData.loginId,
     password: state.credData.password,
+    valid: state.auth.valid
   };
 };
 
-export default connect(mapStateToProps, { getCredentialData, updateCredentialData, deleteCredentialData })(CredentialCard);
+export default connect(mapStateToProps, { getCredentialData, updateCredentialData, deleteCredentialData, validateMe })(CredentialCard);

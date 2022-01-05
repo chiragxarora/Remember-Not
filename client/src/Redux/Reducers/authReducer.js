@@ -1,4 +1,4 @@
-const authReducer = (state = { active: false }, action) => {
+const authReducer = (state = { active: false, valid: false }, action) => {
   switch (action.type) {
     case "SIGNUP_SUCCESS":
       let newState1 = { ...state };
@@ -23,6 +23,16 @@ const authReducer = (state = { active: false }, action) => {
       newState3.active = false;
       newState3.data = undefined;
       return newState3;
+    
+    case "VALIDATE_ME_SUCCESS":
+      let newState5 = {...state};
+      newState5.valid = true;
+      return newState5;
+
+    case "VALIDATE_ME_FAILED":
+      let newState6 = {...state};
+      newState6.valid = false;
+      return newState6;
 
     case "LOGOUT_FAILED":
       return state;

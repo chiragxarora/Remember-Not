@@ -74,20 +74,36 @@ export const tryLogout = () => {
   };
 };
 
+export const validateMe = (passCode) => {
+  return async (dispatch) => {
+    try {
+      const response = await User.get(`/validateme/${passCode}`, {
+        withCredentials: true
+      });
+      dispatch({
+        type: "VALIDATE_ME_SUCCESS",
+        payload: response.data,
+      });
+    } catch (err) {
+        dispatch({
+          type: "VALIDATE_ME_FAILED",
+          payload: err.response.data,
+        });
+    }
+  }
+}
+
 export const getCredentials = () => {
-  console.log("in here");
   return async (dispatch) => {
     try {
       const response = await User.get("/mycredentials", {
         withCredentials: true,
       });
-      console.log(response);
       dispatch({
         type: "GET_CREDENTIALS_SUCCESS",
         payload: response.data.data.myCredentials,
       });
     } catch (err) {
-      console.log(err);
       dispatch({
         type: "GET_CREDENTIALS_FAILED",
         payload: err.response.data,
