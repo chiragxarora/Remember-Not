@@ -1,4 +1,5 @@
 import React from "react";
+import Offline from "./Offline";
 import { connect } from "react-redux";
 import { getWebsites } from "../Redux/Actions";
 
@@ -9,7 +10,7 @@ class Websites extends React.Component {
   
   render() {
     if(this.props.auth.active===false){
-      return <div>Login or wait</div>
+      return <Offline />
     }
     const websites = this.props.websites.map((site) => {
       return (

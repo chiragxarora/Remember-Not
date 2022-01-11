@@ -6,7 +6,7 @@ import { tryLogout } from '../Redux/Actions';
 const NavBar = ({auth, tryLogout}) => {
   return (
     <div>
-      <div className="ui secondary pointing menu massive">
+      <div className="ui secondary pointing menu">
           <NavLink to="/" exact className="item">Home</NavLink>
           <NavLink to="/websites" exact className="item">Websites</NavLink>
           <NavLink to="/addpassword" exact className="item">Add Password</NavLink>    

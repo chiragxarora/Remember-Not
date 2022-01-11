@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import './styles.css';
 import { connect } from "react-redux";
 import Home from './Home';
 import { trySignup } from "../Redux/Actions";
@@ -30,47 +32,76 @@ class Signup extends React.Component {
       return <Home />
     }
     return (
-      <div>
-        <form onSubmit={this.onSubmitSignupForm} className="ui form">
-          <div className="field eight wide">
-            <label>Name</label>
-            <input
-              type="text"
-              value={this.state.name}
-              onChange={(e) => this.setState({ name: e.target.value })}
-              placeholder="John Doe"
-            />
-            <label>E-mail</label>
-            <input
-              type="email"
-              value={this.state.email}
-              onChange={(e) => this.setState({ email: e.target.value })}
-              placeholder="joe@schmoe.com"
-            />
-            <label>PassCode</label>
-            <input
-              type="password"
-              value={this.state.passCode}
-              onChange={(e) => this.setState({ passCode: e.target.value })}
-              placeholder="***********"
-            />
-            <label>Password</label>
-            <input
-              type="password"
-              value={this.state.password}
-              onChange={(e) => this.setState({ password: e.target.value })}
-              placeholder="***********"
-            />
-            <label>Password Confirm</label>
-            <input
-              type="password"
-              value={this.state.passwordConfirm}
-              onChange={(e) => this.setState({ passwordConfirm: e.target.value })}
-              placeholder="joe@schmoe.com"
-            />
-          </div>
-          <button className="ui submit button">Sign Up</button>
-        </form>
+      <div className="ui centered container grid">
+        <div className="nine wide column mt">
+          <h2 className="ui teal image header">
+            <img src="assets/images/logo.png" class="image" />
+            <div className="content">Log-in to your account</div>
+          </h2>
+          <form onSubmit={this.onSubmitSignupForm} class="ui large form">
+            <div className="ui stacked segment">
+              <div className="field">
+                <div className="ui left icon input">
+                  <i className="user icon"></i>
+                  <input
+                    type="text"
+                    value={this.state.name}
+                    onChange={(e) => this.setState({ name: e.target.value })}
+                    placeholder="Name"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="envelope icon"></i>
+                  <input
+                    type="email"
+                    value={this.state.email}
+                    onChange={(e) => this.setState({ email: e.target.value })}
+                    placeholder="E-mail address"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                  <input
+                    type="password"
+                    value={this.state.passCode}
+                    onChange={(e) => this.setState({ passCode: e.target.value })}
+                    placeholder="PassCode"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                  <input
+                    type="password"
+                    value={this.state.password}
+                    onChange={(e) =>
+                      this.setState({ password: e.target.value })
+                    }
+                    placeholder="Password"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                  <input
+                    type="password"
+                    value={this.state.passwordConfirm}
+                    onChange={(e) => this.setState({ passwordConfirm: e.target.value })}
+                    placeholder="Please confirm your password"
+                  />
+                </div>
+              </div>
+              <button class="ui fluid large teal submit button">Sign Up</button>
+            </div>
+            <div class="ui error message"></div>
+          </form>
+        </div>
       </div>
     );
   }

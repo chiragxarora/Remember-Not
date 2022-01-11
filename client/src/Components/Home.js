@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {} from "semantic-ui-react";
 import CredentialCard from "./CredentialCard";
+import Offline from "./Offline";
 import { getCredentials } from "../Redux/Actions";
 
 class Home extends React.Component {
@@ -11,13 +12,19 @@ class Home extends React.Component {
   render() {
     if (this.props.credentials[0] === -1) {
       return (
-        <div>Sorry! Failed to fetch your passwords! Please try again later</div>
+        <Offline />
       );
     }
     const passwords = this.props.credentials.map((pw) => {
       return <CredentialCard credential={pw} />;
     });
-    return <div className="ui cards">{passwords}</div>;
+    return (
+      <div className="ui centered container grid">
+        <div className="fourteen wide column mt">
+          <div className="ui divided items"> {passwords} </div>
+        </div>
+      </div>
+    );
   }
 }
 

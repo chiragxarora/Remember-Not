@@ -1,4 +1,6 @@
 import React from "react";
+import Offline from "./Offline";
+import './styles.css';
 import { Tab } from "semantic-ui-react";
 import { connect } from 'react-redux';
 
@@ -10,10 +12,10 @@ class Dashboard extends React.Component {
   ];
   render() {
     if(this.props.auth.active === false){
-      return <div>Please Login!!</div>
+      return <Offline />
     }
     return (
-      <div>
+      <div className="mt">
         <div>Username: {this.props.auth.data.user.name}</div>
         <div>Role: {this.props.auth.data.user.role}</div>
         <div>Email: {this.props.auth.data.user.email}</div>
