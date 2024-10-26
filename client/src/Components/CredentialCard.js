@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Modal, Button, Input } from "semantic-ui-react";
 import {
@@ -8,204 +8,171 @@ import {
   validateMe,
 } from "../Redux/Actions";
 
-class CredentialCard extends React.Component {
-  state = {
-    loginId: undefined,
-    password: undefined,
-    passcode: "",
-    openView: false,
-    openEdit: false,
-    openDelete: false,
+const CredentialCard = ({
+  auth,
+  id,
+  loginId,
+  password,
+  valid,
+  credential,
+  getCredentialData,
+  updateCredentialData,
+  deleteCredentialData,
+  validateMe
+}) => {
+  const [stateLoginId, setLoginId] = useState(undefined);
+  const [statePassword, setPassword] = useState(undefined);
+  const [passcode, setPasscode] = useState("");
+  const [openView, setOpenView] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const onSubmitView = () => {
+    validateMe(passcode);
+    getCredentialData(credential._id);
+    setOpenView(!openView);
+    setLoginId(loginId);
+    setPassword(password);
+    setPasscode("");
   };
 
-  onSubmitView = () => {
-    this.props.validateMe(this.state.passcode);
-    this.props.getCredentialData(this.props.credential._id);
-    this.setState({ openView: !this.state.openView });
-    this.setState({
-      loginId: this.props.loginId,
-      password: this.props.password,
-      passcode: "",
-    });
+  const onSubmitEdit = () => {
+    const obj = { loginId: stateLoginId, password: statePassword };
+    updateCredentialData(credential._id, obj);
+    setOpenEdit(!openEdit);
   };
 
-  onSubmitEdit = () => {
-    const obj = { loginId: this.state.loginId, password: this.state.password };
-    this.props.updateCredentialData(this.props.credential._id, obj);
-    this.setState({ openEdit: !this.state.openEdit });
+  const onSubmitDelete = () => {
+    deleteCredentialData(credential._id);
+    setOpenDelete(!openDelete);
   };
 
-  onSubmitDelete = () => {
-    this.props.deleteCredentialData(this.props.credential._id);
-    this.setState({ openDelete: !this.state.openDelete });
-  };
-
-  render() {
-    const cred = this.props.credential;
-    return (
-      <div className="item">
-        <div class="image">
-          <img src="/images/wireframe/image.png" />
-        </div>
-        <div className="content">
-          <div className="header">{cred.websiteId.name}</div>
-          <a className="meta" href={cred.websiteId.link} target="_blank">
-            {cred.websiteId.link}
-          </a>
-          <div className="description">
-            <p>
-              login id :{" "}
-              {cred._id === this.props.id && this.props.valid
-                ? this.props.loginId
-                : "xxxxxxxxxx"}
-            </p>
-            <p>
-              password :{" "}
-              {cred._id === this.props.id && this.props.valid
-                ? this.props.password
-                : "xxxxxxxxxx"}
-            </p>
-          </div>
-        </div>
-        <div className="extra">
-        <button
-            className="ui right floated red button"
-            disabled={
-              this.props.id !== cred._id || !this.props.valid ? true : false
-            }
-            onClick={() =>
-              this.setState({ openDelete: !this.state.openDelete })
-            }
-          >
-            Delete
-            <i class="right chevron icon"></i>
-          </button>
-          <Modal
-            dimmer="blurring"
-            open={this.state.openDelete}
-            onClose={() =>
-              this.setState({ openDelete: !this.state.openDelete })
-            }
-          >
-            <Modal.Header>Delete this credential?</Modal.Header>
-            <Modal.Content>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                negative
-                onClick={() =>
-                  this.setState({ openDelete: !this.state.openDelete })
-                }
-              >
-                Disagree
-              </Button>
-              <Button positive onClick={this.onSubmitDelete}>
-                Agree
-              </Button>
-            </Modal.Actions>
-          </Modal>
-          <button
-            className="ui right floated yellow button"
-            disabled={
-              this.props.id !== cred._id || !this.props.valid ? true : false
-            }
-            onClick={() =>
-              this.setState({
-                openEdit: !this.state.openEdit,
-                loginId: this.props.loginId,
-                password: this.props.password,
-              })
-            }
-          >
-            Edit
-            <i class="right chevron icon"></i>
-          </button>
-          <Modal
-            dimmer="blurring"
-            open={this.state.openEdit}
-            onClose={() =>
-              this.setState({
-                openEdit: !this.state.openEdit,
-                loginId: undefined,
-                password: undefined,
-              })
-            }
-          >
-            <Modal.Header>Edit this credential?</Modal.Header>
-            <Modal.Content>
-              <Input
-                value={this.state.loginId}
-                onChange={(e) => this.setState({ loginId: e.target.value })}
-              />
-              <Input
-                value={this.state.password}
-                onChange={(e) => this.setState({ password: e.target.value })}
-              />
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                negative
-                onClick={() =>
-                  this.setState({ openEdit: !this.state.openEdit })
-                }
-              >
-                Disagree
-              </Button>
-              <Button positive onClick={this.onSubmitEdit}>
-                Agree
-              </Button>
-            </Modal.Actions>
-          </Modal>
-          <div
-            className="ui right floated green button"
-            onClick={() => this.setState({ openView: !this.state.openView })}
-          >
-            View
-            <i class="right chevron icon"></i>
-          </div>
-          <Modal
-            dimmer="blurring"
-            open={this.state.openView}
-            onClose={() => this.setState({ openView: !this.state.openView })}
-          >
-            <Modal.Header>Enter passcode to confirm</Modal.Header>
-            <Modal.Content>
-              <Input
-                value={this.state.passcode}
-                onChange={(e) => this.setState({ passcode: e.target.value })}
-              />
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                negative
-                onClick={() =>
-                  this.setState({ openView: !this.state.openView })
-                }
-              >
-                Disagree
-              </Button>
-              <Button positive onClick={this.onSubmitView}>
-                Agree
-              </Button>
-            </Modal.Actions>
-          </Modal>
+  return (
+    <div className="item">
+      <div className="image">
+        <img src="/images/wireframe/image.png" alt="Placeholder" />
+      </div>
+      <div className="content">
+        <div className="header">{credential.websiteId.name}</div>
+        <a className="meta" href={credential.websiteId.link} target="_blank" rel="noopener noreferrer">
+          {credential.websiteId.link}
+        </a>
+        <div className="description">
+          <p>
+            login id : {credential._id === id && valid ? loginId : "xxxxxxxxxx"}
+          </p>
+          <p>
+            password : {credential._id === id && valid ? password : "xxxxxxxxxx"}
+          </p>
         </div>
       </div>
-    );
-  }
-}
+      <div className="extra">
+        <button
+          className="ui right floated red button"
+          disabled={id !== credential._id || !valid}
+          onClick={() => setOpenDelete(!openDelete)}
+        >
+          Delete
+          <i className="right chevron icon"></i>
+        </button>
+        <Modal
+          dimmer="blurring"
+          open={openDelete}
+          onClose={() => setOpenDelete(!openDelete)}
+        >
+          <Modal.Header>Delete this credential?</Modal.Header>
+          <Modal.Content>
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={() => setOpenDelete(!openDelete)}>
+              Disagree
+            </Button>
+            <Button positive onClick={onSubmitDelete}>
+              Agree
+            </Button>
+          </Modal.Actions>
+        </Modal>
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    id: state.credData.id,
-    loginId: state.credData.loginId,
-    password: state.credData.password,
-    valid: state.auth.valid,
-  };
+        <button
+          className="ui right floated yellow button"
+          disabled={id !== credential._id || !valid}
+          onClick={() => {
+            setOpenEdit(!openEdit);
+            setLoginId(loginId);
+            setPassword(password);
+          }}
+        >
+          Edit
+          <i className="right chevron icon"></i>
+        </button>
+        <Modal
+          dimmer="blurring"
+          open={openEdit}
+          onClose={() => {
+            setOpenEdit(!openEdit);
+            setLoginId(undefined);
+            setPassword(undefined);
+          }}
+        >
+          <Modal.Header>Edit this credential?</Modal.Header>
+          <Modal.Content>
+            <Input
+              value={stateLoginId}
+              onChange={(e) => setLoginId(e.target.value)}
+            />
+            <Input
+              value={statePassword}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={() => setOpenEdit(!openEdit)}>
+              Disagree
+            </Button>
+            <Button positive onClick={onSubmitEdit}>
+              Agree
+            </Button>
+          </Modal.Actions>
+        </Modal>
+
+        <div className="ui right floated green button" onClick={() => setOpenView(!openView)}>
+          View
+          <i className="right chevron icon"></i>
+        </div>
+        <Modal
+          dimmer="blurring"
+          open={openView}
+          onClose={() => setOpenView(!openView)}
+        >
+          <Modal.Header>Enter passcode to confirm</Modal.Header>
+          <Modal.Content>
+            <Input
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
+            />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={() => setOpenView(!openView)}>
+              Disagree
+            </Button>
+            <Button positive onClick={onSubmitView}>
+              Agree
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </div>
+    </div>
+  );
 };
+
+const mapStateToProps = (state) => ({
+  id: state.credData.id,
+  loginId: state.credData.loginId,
+  password: state.credData.password,
+  valid: state.auth.valid,
+});
 
 export default connect(mapStateToProps, {
   getCredentialData,

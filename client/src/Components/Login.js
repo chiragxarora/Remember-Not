@@ -1,104 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import './styles.css';
 import { connect } from "react-redux";
 import { tryLogin } from "../Redux/Actions";
 
-class Login extends React.Component {
-  state = { email: "", password: "" };
+const Login = ({ tryLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  onSubmitLoginForm = (e) => {
+  const onSubmitLoginForm = (e) => {
     e.preventDefault();
-    console.log("idhar");
-    this.props.tryLogin(this.state.email, this.state.password);
+    console.log("Logging in...");
+    tryLogin(email, password);
   };
 
-  render() {
-    return (
-      <div class="ui centered container grid">
-        <div class="nine wide column mt">
-          <h2 class="ui teal image header">
-            <img src="assets/images/logo.png" class="image" />
-            <div class="content">Log-in to your account</div>
-          </h2>
-          <form onSubmit={this.onSubmitLoginForm} class="ui large form">
-            <div class="ui stacked segment">
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="user icon"></i>
-                  <input
-                    type="email"
-                    value={this.state.email}
-                    onChange={(e) => this.setState({ email: e.target.value })}
-                    placeholder="E-mail address"
-                  />
-                </div>
+  return (
+    <div className="ui centered container grid">
+      <div className="nine wide column mt">
+        <h2 className="ui teal image header">
+          <img src="assets/images/logo.png" className="image" alt="Logo" />
+          <div className="content">Log-in to your account</div>
+        </h2>
+        <form onSubmit={onSubmitLoginForm} className="ui large form">
+          <div className="ui stacked segment">
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail address"
+                  required
+                />
               </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
-                  <input
-                    type="password"
-                    value={this.state.password}
-                    onChange={(e) =>
-                      this.setState({ password: e.target.value })
-                    }
-                    placeholder="Password"
-                  />
-                </div>
+            </div>
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
               </div>
-              <button class="ui fluid large teal submit button">Login</button>
             </div>
+            <button className="ui fluid large teal submit button">Login</button>
+          </div>
+          <div className="ui error message"></div>
+        </form>
 
-            <div class="ui error message"></div>
-          </form>
-
-          <div class="ui message centered grid">
-            <div>
-              New to us?{" "}
-              <Link to="/signup" className="ui teal button">
-                Signup
-              </Link>
-            </div>
+        <div className="ui message centered grid">
+          <div>
+            New to us?{" "}
+            <Link to="/signup" className="ui teal button">
+              Signup
+            </Link>
           </div>
         </div>
       </div>
-
-      // <div>
-      //   <form  className="ui form">
-      //     <div className="field eight wide">
-      //       <label>E-mail</label>
-      //       <input
-      //
-      //
-      //
-      //         placeholder="joe@schmoe.com"
-      //       />
-      //       <label>Password</label>
-      //       <input
-      //
-      //
-      //
-      //         placeholder="***********"
-      //       />
-      //     </div>
-      //     <button className="ui submit button">Login</button>
-      //   </form>
-      //   <div className="ui segment">
-      //     New Here
-      //
-      //       Signup!
-      //     </Link>
-      //   </div>
-      // </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
+    </div>
+  );
 };
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
 export default connect(mapStateToProps, { tryLogin })(Login);
