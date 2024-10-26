@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './styles.css';
 import { connect } from "react-redux";
-import { tryLogin } from "../Redux/Actions";
+import { tryLogin, resetErrorMessge } from "../Redux/Actions";
 
-const Login = ({ tryLogin }) => {
+const Login = ({ tryLogin, error, resetErrorMessge }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [localError, setLocalError] = useState(undefined);
 
   const onSubmitLoginForm = (e) => {
     e.preventDefault();
     console.log("Logging in...");
+    setLocalError(undefined);
     tryLogin(email, password);
   };
+
+  useEffect(() => {
+    return () => {
+      console.log("signup unmounting");
+      setLocalError(undefined);
+      resetErrorMessge();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(error);
+    setLocalError(error);
+  }, [error,localError]);
 
   return (
     <div className="ui centered container grid">
@@ -51,6 +66,12 @@ const Login = ({ tryLogin }) => {
           </div>
           <div className="ui error message"></div>
         </form>
+        {localError!=undefined && (
+          <div className="ui error message">
+            <div className="header">Error</div>
+            <p>{localError}</p>
+          </div>
+        )}
 
         <div className="ui message centered grid">
           <div>
@@ -67,6 +88,7 @@ const Login = ({ tryLogin }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  error: state.errors.error
 });
 
-export default connect(mapStateToProps, { tryLogin })(Login);
+export default connect(mapStateToProps, { tryLogin, resetErrorMessge })(Login);

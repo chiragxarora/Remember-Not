@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Offline from "./Offline";
 import './styles.css';
-import { Dropdown, Form, Button } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getWebsites, addCredential } from "../Redux/Actions";
 

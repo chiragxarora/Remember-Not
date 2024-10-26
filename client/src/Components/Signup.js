@@ -2,23 +2,34 @@ import React, { useState, useEffect } from "react";
 import './styles.css';
 import { connect } from "react-redux";
 import Home from './Home';
-import { trySignup } from "../Redux/Actions";
+import { trySignup, resetErrorMessge } from "../Redux/Actions";
 
-const Signup = ({ auth, trySignup }) => {
+const Signup = ({ auth, trySignup, error, resetSignupError }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [passCode, setPassCode] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [localError, setLocalError] = useState(undefined);
 
   const onSubmitSignupForm = (e) => {
     e.preventDefault();
+    setLocalError(undefined);
     trySignup(name, email, passCode, password, passwordConfirm);
   };
 
   useEffect(() => {
-    // componentDidMount logic here if needed
-  }, []); // Empty dependency array makes this run once on mount
+    return () => {
+      console.log("signup unmounting");
+      setLocalError(undefined);
+      resetErrorMessge();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(error);
+    setLocalError(error);
+  }, [error,localError]);
 
   if (auth.active) {
     return <Home />;
@@ -92,6 +103,12 @@ const Signup = ({ auth, trySignup }) => {
           </div>
           <div className="ui error message"></div>
         </form>
+        {localError!=undefined && (
+          <div className="ui error message">
+            <div className="header">Error</div>
+            <p>{localError}</p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -99,6 +116,7 @@ const Signup = ({ auth, trySignup }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  error: state.errors.error
 });
 
-export default connect(mapStateToProps, { trySignup })(Signup);
+export default connect(mapStateToProps, { trySignup, resetErrorMessge })(Signup);

@@ -1,4 +1,4 @@
-const authReducer = (state = { active: false, valid: false }, action) => {
+const authReducer = (state = { active: false, valid: false, error: undefined }, action) => {
   switch (action.type) {
     case "SIGNUP_SUCCESS":
       let newState1 = { ...state };
@@ -7,7 +7,11 @@ const authReducer = (state = { active: false, valid: false }, action) => {
       return newState1;
 
     case "SIGNUP_FAILED":
-      return state;
+      console.log(action);
+      let newState11 = { ...state };
+      newState11.error = action.payload.data.message;
+      console.log(newState11);
+      return newState11;
 
     case "LOGIN_SUCCESS":
       let newState2 = { ...state };

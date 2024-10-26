@@ -30,7 +30,12 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  console.log(req.body);
+  console.log("Sign up request: ",req.body);
+  const checkIfExists = await User.findOne({email: req.body.email});
+  if(checkIfExists) {
+    console.log("Sign up error: user already exists");
+    return next(new AppError("This email already exists, please use a different email", 400));
+  }
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -50,6 +55,10 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 2) Check if user exists in database and password is correct
   const user = await User.findOne({ email }).select("+password");
+  if(!user) {
+    console.log("Log in error: user does not exist");
+    return next(new AppError("This email has not signed up, please sign in to continue!", 400));
+  }
   console.log("User Fetched from DB", user);
   const correct = await user.correctPassword(password, user.password);
   if (!user || !correct) {

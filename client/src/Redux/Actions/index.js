@@ -16,18 +16,28 @@ export const trySignup = (name, email, passCode, password, passwordConfirm) => {
           withCredentials: true,
         }
       );
+      console.log(response.data);
       dispatch({
         type: "SIGNUP_SUCCESS",
         payload: response.data,
       });
     } catch (err) {
+      console.log(err.response);
       dispatch({
-        type: "SIGNUP_FAILED",
-        payload: err.response.data,
+        type: "SIGNUP_ERROR_MESSAGE",
+        payload: err.response,
       });
     }
   };
 };
+
+export const resetErrorMessge = () => {
+  console.log("will try to remove err msg");
+  return async (dispatch) => {
+    console.log("dispatching reset signup err msg");
+    dispatch({type: "RESET_ERROR_MESSAGE", payload: {}});
+  }
+}
 
 export const tryLogin = (email, password) => {
   return async (dispatch) => {
@@ -42,14 +52,16 @@ export const tryLogin = (email, password) => {
           withCredentials: true,
         }
       );
+      console.log(response.data);
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: response.data,
       });
     } catch (err) {
+      console.log(err.response.data);
       dispatch({
-        type: "LOGIN_FAILED",
-        payload: err.response.data,
+        type: "LOGIN_ERROR_MESSAGE",
+        payload: err.response,
       });
     }
   };
@@ -61,11 +73,13 @@ export const tryLogout = () => {
       const response = await User.get("/logout", {
         withCredentials: true,
       });
+      console.log(response.data);
       dispatch({
         type: "LOGOUT_SUCCESS",
         payload: response.data,
       });
     } catch (err) {
+      console.log(err.response.data);
       dispatch({
         type: "LOGOUT_FAILED",
         payload: err.response.data,
@@ -80,11 +94,13 @@ export const validateMe = (passCode) => {
       const response = await User.get(`/validateme/${passCode}`, {
         withCredentials: true
       });
+      console.log(response.data);
       dispatch({
         type: "VALIDATE_ME_SUCCESS",
         payload: response.data,
       });
     } catch (err) {
+      console.log(err.response.data);
         dispatch({
           type: "VALIDATE_ME_FAILED",
           payload: err.response.data,
@@ -99,11 +115,13 @@ export const getCredentials = () => {
       const response = await User.get("/mycredentials", {
         withCredentials: true,
       });
+      console.log(response.data);
       dispatch({
         type: "GET_CREDENTIALS_SUCCESS",
         payload: response.data.data.myCredentials,
       });
     } catch (err) {
+      console.log(err.response.data);
       dispatch({
         type: "GET_CREDENTIALS_FAILED",
         payload: err.response.data,
@@ -124,7 +142,7 @@ export const getCredentialData = (id) => {
         payload: response.data.data.credential,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "GET_CREDENTIAL_DATA_FAILED",
         payload: err.response.data,
@@ -145,7 +163,7 @@ export const updateCredentialData = (id, updateBody) => {
         payload: response.data.data.updatedCredential,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "UPDATE_CREDENTIAL_DATA_FAILED",
         payload: err.response.data,
@@ -166,7 +184,7 @@ export const deleteCredentialData = (id) => {
         payload: { id },
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "DELETE_CREDENTIAL_DATA_FAILED",
         payload: err.response.data,
@@ -187,7 +205,7 @@ export const getWebsites = () => {
         payload: response.data,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "GET_WEBSITES_FAILED",
         payload: err.response.data,
@@ -217,7 +235,7 @@ export const addCredential = (loginId, password, websiteId) => {
         payload: response.data,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "ADD_CREDENTIAL_FAILED",
         payload: err.response.data,
@@ -238,7 +256,7 @@ export const updateMyPassword = (updateBody) => {
         payload: response.data,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "UPDATE_PASSWORD_FAILED",
         payload: err.response.data,
@@ -259,7 +277,7 @@ export const updateMe = (updateBody) => {
         payload: response.data,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
       dispatch({
         type: "UPDATE_ME_FAILED",
         payload: err.response.data,

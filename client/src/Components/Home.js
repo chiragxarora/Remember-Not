@@ -4,12 +4,12 @@ import CredentialCard from "./CredentialCard";
 import Offline from "./Offline";
 import { getCredentials } from "../Redux/Actions";
 
-const Home = ({ credentials, getCredentials }) => {
+const Home = ({ credentials, getCredentials, active }) => {
   useEffect(() => {
     getCredentials();
-  }, [getCredentials]);
+  }, [getCredentials, active]);
 
-  if (credentials[0] === -1) {
+  if (credentials[0] === -1 || active === false) {
     return <Offline />;
   }
 
@@ -29,6 +29,7 @@ const Home = ({ credentials, getCredentials }) => {
 const mapStateToProps = (state) => {
   return {
     credentials: state.credentials,
+    active: state.auth.active
   };
 };
 

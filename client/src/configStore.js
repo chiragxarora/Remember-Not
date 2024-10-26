@@ -7,7 +7,7 @@ import reducers from "./Redux/Reducers";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ['credData'],
+  blacklist: ['credData', 'errors'],
   whitelist: ['auth', 'credentials']
 };
 
