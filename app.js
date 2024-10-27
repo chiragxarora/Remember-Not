@@ -49,4 +49,10 @@ app.use("/api/v1/credentials", credentialRouter);
 
 app.use(globalErrorHandler);
 
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    message: "Invalid route"
+  })
+})
+
 module.exports = app;
