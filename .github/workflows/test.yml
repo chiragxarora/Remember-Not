@@ -16,10 +16,7 @@ jobs:
                     cd client
                     npm ci
             - name: Run Tests - backend
-              run: |
-                    cd ..
-                    npm run test-backend
+              run: npm run test-backend
             - name: Run Tests - frontend
-              run: |
-                    npm run test-frontend
+              run: npm run test-frontend
 
