@@ -18,11 +18,11 @@ const Login = ({ tryLogin, error, resetErrorMessge }) => {
 
   useEffect(() => {
     return () => {
-      console.log("signup unmounting");
+      console.log("login unmounting");
       setLocalError(undefined);
       resetErrorMessge();
     }
-  }, []);
+  }, [resetErrorMessge]);
 
   useEffect(() => {
     console.log(error);
@@ -66,7 +66,7 @@ const Login = ({ tryLogin, error, resetErrorMessge }) => {
           </div>
           <div className="ui error message"></div>
         </form>
-        {localError!=undefined && (
+        {localError!==undefined && (
           <div className="ui error message">
             <div className="header">Error</div>
             <p>{localError}</p>

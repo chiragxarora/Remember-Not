@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Home from './Home';
 import { trySignup, resetErrorMessge } from "../Redux/Actions";
 
-const Signup = ({ auth, trySignup, error, resetSignupError }) => {
+const Signup = ({ auth, trySignup, error, resetErrorMessge }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [passCode, setPassCode] = useState("");
@@ -24,7 +24,7 @@ const Signup = ({ auth, trySignup, error, resetSignupError }) => {
       setLocalError(undefined);
       resetErrorMessge();
     }
-  }, []);
+  }, [resetErrorMessge]);
 
   useEffect(() => {
     console.log(error);
@@ -103,7 +103,7 @@ const Signup = ({ auth, trySignup, error, resetSignupError }) => {
           </div>
           <div className="ui error message"></div>
         </form>
-        {localError!=undefined && (
+        {localError!==undefined && (
           <div className="ui error message">
             <div className="header">Error</div>
             <p>{localError}</p>
