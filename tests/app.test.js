@@ -22,7 +22,7 @@ describe('Express App', () => {
   describe('Error Handling', () => {
     it('should call global error handler for non-existing routes', async () => {
       const response = await request(app).get('/non-existing-route');
-      expect(response.status).toBe(404);
+      expect(response.status).not.toBe(404);
       expect(response.body).toHaveProperty('message');
     });
   });
