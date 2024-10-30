@@ -21,6 +21,5 @@ jobs:
                     npm run test-backend
             - name: Run Tests - frontend
               run: |
-                    cd client
                     npm run test-frontend
 
