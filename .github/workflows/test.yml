@@ -9,7 +9,7 @@ jobs:
             - name: Install NodeJS
               uses: actions/setup-node@v3
               with:
-                node-version: 22
+                node-version: 16
             - name: Install Dependencies
               run: |
                     npm ci
@@ -28,7 +28,7 @@ jobs:
             - name: Install NodeJS
               uses: actions/setup-node@v3
               with:
-                node-version: 22
+                node-version: 16
             - name: Install Dependencies
               run: |
                     cd client
@@ -36,7 +36,7 @@ jobs:
             - name: Build
               run: |
                     cd client
-                    npm run build --verbose
+                    npm run build
             - name: Deploy
               run: echo "Dummy deployment"
             
