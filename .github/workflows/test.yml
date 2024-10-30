@@ -36,7 +36,7 @@ jobs:
             - name: Build
               run: |
                     cd client
-                    npm run build
+                    npm run build --verbose
             - name: Deploy
               run: echo "Dummy deployment"
             
