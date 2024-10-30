@@ -1,5 +1,5 @@
 name: Unit Tests
-on: push
+on: [push, workflow_dispatch]
 jobs:
     unit-tests:
         runs-on: ubuntu-latest
@@ -19,4 +19,26 @@ jobs:
               run: npm run test-backend
             - name: Run Tests - frontend
               run: npm run test-frontend
+    build-and-deploy:
+        needs: unit-tests  # should run only after unit-test job succeeds
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Code
+              uses: actions/checkout@v3
+            - name: Install NodeJS
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+            - name: Install Dependencies
+              run: |
+                    cd client
+                    npm ci
+            - name: Build
+              run: |
+                    cd client
+                    npm run build
+            - name: Deploy
+              run: echo "Dummy deployment"
+            
+
 
