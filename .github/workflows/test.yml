@@ -1,7 +1,7 @@
-name: Test frontend
+name: Unit Tests
 on: push
 jobs:
-    test:
+    unit-tests:
         runs-on: ubuntu-latest
         steps:
             - name: Get Code
@@ -12,8 +12,15 @@ jobs:
                 node-version: 18
             - name: Install Dependencies
               run: |
+                    npm ci
                     cd client
                     npm ci
-            - name: Run Tests
-              run: npm run test-frontend
+            - name: Run Tests - backend
+              run: |
+                    cd ..
+                    npm run test-backend
+            - name: Run Tests - frontend
+              run: |
+                    cd client
+                    npm run test-frontend
 
