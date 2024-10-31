@@ -1,5 +1,9 @@
 name: Issue Logger
-on: issues
+on:
+   issues:
+        types:
+            - opened
+            - closed
 jobs:
     Print-Details:
         runs-on: ubuntu-latest
