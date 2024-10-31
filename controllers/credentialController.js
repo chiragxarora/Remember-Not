@@ -15,6 +15,7 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.addCredential = catchAsync(async (req, res, next) => {
   console.log(req.body);
+  console.log("will encrypt the password before storing in DB");
   const credential = await Credential.create({
     loginId: req.body.loginId,
     password: req.body.password,

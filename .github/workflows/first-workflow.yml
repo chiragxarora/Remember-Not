@@ -1,5 +1,5 @@
 name: first-workflow
-on: workflow_dispatch
+on: push
 jobs:
   first-job:
     name: first-job
