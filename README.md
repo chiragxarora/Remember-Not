@@ -1,5 +1,7 @@
 
-# MERN Project
+# REMEMBER-NOT
+
+**Remember-Not** is a secure and user-friendly credential management application that lets you store all your login IDs and passwords for different websites in one place. Say goodbye to forgotten passwords and enjoy easy, organized access to your credentials with peace of mind.
 
 This project is a MERN (MongoDB, Express, React, Node) stack application. Follow the steps below to set up and run the project locally.
 
