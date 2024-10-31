@@ -1,5 +1,11 @@
 name: Unit Tests
-on: [push, workflow_dispatch]
+on: 
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - './github/workflows/*'  # will execute workflow only if files outside of workflow path are changed
 jobs:
     unit-tests:
         runs-on: ubuntu-latest
