@@ -4,6 +4,7 @@ on:
         types:
             - opened
             - closed
+            - reopened
 jobs:
     Print-Details:
         runs-on: ubuntu-latest
